@@ -7,14 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
   :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --border: #1e1e2e;
-    --accent: #7c6dff;
-    --accent2: #ff6d8a;
-    --text: #e8e8f0;
-    --muted: #6e6e8a;
-    --card: #14141e;
+    --bg: #f7f7fb;
+    --surface: #ffffff;
+    --border: #e2e2ee;
+    --accent: #5b4fff;
+    --accent2: #ff4d72;
+    --text: #1a1a2e;
+    --muted: #7a7a9a;
+    --card: #ffffff;
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -50,7 +50,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1.2rem 4rem;
-    background: rgba(10,10,15,0.85);
+    background: rgba(247,247,251,0.92);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
@@ -469,6 +469,40 @@
     color: var(--muted);
   }
 
+  /* CERTIFICATIONS */
+  .cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .cert-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .cert-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .cert-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .cert-title { font-size: 0.9rem; font-weight: 500; margin-bottom: 0.2rem; }
+  .cert-org { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--accent); margin-bottom: 0.2rem; }
+  .cert-date { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: var(--muted); }
+
+  /* EXTRAS */
+  .extras-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 3rem; }
+  .extra-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 1.75rem; }
+  .extra-title { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--accent); letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 1rem; }
+  .lang-item { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+  .lang-item:last-child { border-bottom: none; }
+  .lang-level { font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--muted); }
+
+  /* GITHUB STATS */
+  .github-stats-grid { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+  .github-stats-grid img { border-radius: 8px; border: 1px solid var(--border); max-width: 100%; }
+
   /* CONTACT */
   .contact-inner {
     max-width: 560px;
@@ -585,10 +619,11 @@
   <div class="hero-content">
     <div class="hero-tag">// Computer Science @ ADA University</div>
     <h1 class="hero-name">Maisa<br/><em>Babayeva</em></h1>
-    <p class="hero-sub">CS student passionate about machine learning, AI, and building things that matter. Based in Baku, Azerbaijan.</p>
+    <p class="hero-sub">CS student passionate about machine learning, AI, and turning ideas into solutions.</p>
     <div class="hero-links">
       <a href="#projects" class="btn btn-primary">View Projects</a>
       <a href="https://www.linkedin.com/in/bmaisa" target="_blank" class="btn btn-outline">LinkedIn ↗</a>
+      <a href="Maisa_Babayeva_cv01.pdf" download class="btn btn-outline">Download CV ↓</a>
     </div>
   </div>
 </section>
@@ -604,7 +639,6 @@
       <p>I'm a <strong>Computer Science student at ADA University</strong> with a GPA of 3.94/4.0, expected to graduate in May 2027.</p>
       <p>My focus is on <strong>machine learning, data science, and AI</strong>. I enjoy working on projects that combine technical rigor with real-world impact — from training reinforcement learning agents to building classification pipelines.</p>
       <p>Beyond building things, I'm passionate about <strong>teaching and mentorship</strong>. I've tutored 80+ students in Calculus and served as a Teaching Assistant in programming courses at ADA University.</p>
-      <p>I'm a <strong>Dean's List</strong> student, Lotfi A. Zadeh Scholarship recipient, hackathon finalist, and scholarship recipient for competitive ML training programs.</p>
     </div>
     <div class="about-stats">
       <div class="stat-card">
@@ -650,7 +684,6 @@
         <span class="tag">NumPy</span>
         <span class="tag">Pandas</span>
         <span class="tag">Matplotlib</span>
-        <span class="tag">MLflow</span>
         <span class="tag">EDA</span>
       </div>
     </div>
@@ -766,7 +799,7 @@
     <div class="exp-item">
       <div class="exp-date">Sep – Nov 2024</div>
       <div>
-        <div class="exp-role">Girls in IT Program</div>
+        <div class="exp-role">Girls in IT: Mathematical Foundations of Computer Science</div>
         <div class="exp-org">Digital Azerbaijan Talent School</div>
         <div class="exp-desc">Completed training in mathematical foundations of CS, including problem-solving and algorithmic thinking workshops.</div>
       </div>
@@ -838,9 +871,84 @@
 
 <div class="divider"></div>
 
-<!-- CONTACT -->
-<section id="contact">
+<!-- CERTIFICATIONS -->
+<section id="certifications">
   <div class="section-label">// 06</div>
+  <h2 class="section-title">Certifications & Training</h2>
+  <div class="cert-grid reveal">
+    <div class="cert-card">
+      <div class="cert-icon">🎓</div>
+      <div>
+        <div class="cert-title">Data Science & Machine Learning</div>
+        <div class="cert-org">Codenext Innovation School</div>
+        <div class="cert-date">May – Aug 2024 · 100% Scholarship</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">🏛️</div>
+      <div>
+        <div class="cert-title">Aspire Leaders Program</div>
+        <div class="cert-org">Harvard Business School</div>
+        <div class="cert-date">Aug – Nov 2024</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">💻</div>
+      <div>
+        <div class="cert-title">Girls in IT: Mathematical Foundations of CS</div>
+        <div class="cert-org">Digital Azerbaijan Talent School</div>
+        <div class="cert-date">Sep – Nov 2024</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-icon">📊</div>
+      <div>
+        <div class="cert-title">Data Science</div>
+        <div class="cert-org">Digital LevelUp</div>
+        <div class="cert-date">April 2025</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="extras-grid reveal">
+    <div class="extra-card">
+      <div class="extra-title">Languages</div>
+      <div class="lang-item">
+        <span>Azerbaijani</span>
+        <span class="lang-level">Native</span>
+      </div>
+      <div class="lang-item">
+        <span>English</span>
+        <span class="lang-level">Fluent</span>
+      </div>
+    </div>
+    <div class="extra-card">
+      <div class="extra-title">Currently Learning</div>
+      <div class="skill-tags">
+        <span class="tag">Deep Learning</span>
+        <span class="tag">Neural Networks</span>
+        <span class="tag">Computer Vision</span>
+        <span class="tag">TensorFlow</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GITHUB STATS -->
+<section id="github-stats">
+  <div class="section-label">// 07</div>
+  <h2 class="section-title">GitHub Activity</h2>
+  <div class="github-stats-grid reveal">
+    <img src="https://github-readme-stats.vercel.app/api?username=maisababayeva&show_icons=true&theme=default&hide_border=true&bg_color=ffffff&title_color=5b4fff&icon_color=5b4fff&text_color=1a1a2e" alt="GitHub Stats" />
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=maisababayeva&layout=compact&theme=default&hide_border=true&bg_color=ffffff&title_color=5b4fff&text_color=1a1a2e" alt="Top Languages" />
+  </div>
+</section>
+
+<div class="divider"></div>
+<section id="contact">
+  <div class="section-label">// 08</div>
   <h2 class="section-title">Get in Touch</h2>
   <div class="contact-inner reveal">
     <p>I'm open to research collaborations, internship opportunities, and interesting conversations about ML and AI.</p>
