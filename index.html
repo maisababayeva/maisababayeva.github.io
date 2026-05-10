@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Maisa Babayeva</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #12121a;
+    --border: #1e1e2e;
+    --accent: #7c6dff;
+    --accent2: #ff6d8a;
+    --text: #e8e8f0;
+    --muted: #6e6e8a;
+    --card: #14141e;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    font-family: 'DM Mono', monospace;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 70% 50%, rgba(124,109,255,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(255,109,138,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .hero-content {
+    max-width: 800px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards 0.2s;
+  }
+
+  .hero-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.4s;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.6s;
+  }
+
+  .hero-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards 0.8s;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .btn-primary:hover {
+    background: #9180ff;
+    transform: translateY(-2px);
+  }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-outline:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 6rem 4rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    line-height: 1.1;
+    margin-bottom: 3rem;
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    margin-bottom: 1rem;
+    font-size: 1rem;
+  }
+
+  .about-text p strong {
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: border-color 0.2s;
+  }
+
+  .stat-card:hover { border-color: var(--accent); }
+
+  .stat-number {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-category {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.75rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .skill-category:hover {
+    border-color: var(--accent);
+    transform: translateY(-3px);
+  }
+
+  .skill-cat-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    background: rgba(124,109,255,0.08);
+    border: 1px solid rgba(124,109,255,0.2);
+    color: var(--text);
+    padding: 0.3rem 0.75rem;
+    border-radius: 3px;
+    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    transition: border-color 0.2s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-4px);
+  }
+
+  .project-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+  }
+
+  .project-icon {
+    font-size: 1.5rem;
+  }
+
+  .project-link {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-family: 'DM Mono', monospace;
+    transition: color 0.2s;
+  }
+
+  .project-link:hover { color: var(--accent); }
+
+  .project-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .project-desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 1.25rem;
+    flex: 1;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .project-tag {
+    background: rgba(255,109,138,0.08);
+    border: 1px solid rgba(255,109,138,0.2);
+    color: var(--accent2);
+    padding: 0.2rem 0.6rem;
+    border-radius: 3px;
+    font-size: 0.75rem;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .project-meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* EXPERIENCE */
+  .exp-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .exp-item {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 2rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .exp-item:last-child { border-bottom: none; }
+
+  .exp-date {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--muted);
+    padding-top: 0.2rem;
+  }
+
+  .exp-role {
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .exp-org {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .exp-desc {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+
+  /* AWARDS */
+  .awards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .award-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+    transition: border-color 0.2s;
+  }
+
+  .award-item:hover { border-color: var(--accent2); }
+
+  .award-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent2);
+    margin-top: 0.45rem;
+    flex-shrink: 0;
+  }
+
+  .award-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+  }
+
+  .award-org {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* CONTACT */
+  .contact-inner {
+    max-width: 560px;
+  }
+
+  .contact-inner p {
+    color: var(--muted);
+    margin-bottom: 2rem;
+    font-size: 1rem;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .contact-row:hover {
+    border-color: var(--accent);
+    transform: translateX(4px);
+  }
+
+  .contact-icon {
+    font-size: 1rem;
+    width: 20px;
+    text-align: center;
+  }
+
+  .contact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    color: var(--muted);
+    flex: 1;
+  }
+
+  .contact-value {
+    font-size: 0.9rem;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 4rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  footer p {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 0 1.5rem; }
+    .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .exp-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">mb.dev</div>
+  <ul class="nav-links">
+    <li><a href="#about">about</a></li>
+    <li><a href="#skills">skills</a></li>
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#experience">experience</a></li>
+    <li><a href="#contact">contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">// Computer Science @ ADA University</div>
+    <h1 class="hero-name">Maisa<br/><em>Babayeva</em></h1>
+    <p class="hero-sub">CS student passionate about machine learning, AI, and building things that matter. Based in Baku, Azerbaijan.</p>
+    <div class="hero-links">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="https://www.linkedin.com/in/bmaisa" target="_blank" class="btn btn-outline">LinkedIn ↗</a>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-label">// 01</div>
+  <h2 class="section-title">About Me</h2>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>I'm a <strong>Computer Science student at ADA University</strong> with a GPA of 3.94/4.0, expected to graduate in May 2027.</p>
+      <p>My focus is on <strong>machine learning, data science, and AI</strong>. I enjoy working on projects that combine technical rigor with real-world impact — from training reinforcement learning agents to building classification pipelines.</p>
+      <p>Beyond building things, I'm passionate about <strong>teaching and mentorship</strong>. I've tutored 80+ students in Calculus and served as a Teaching Assistant in programming courses at ADA University.</p>
+      <p>I'm a <strong>Dean's List</strong> student, Lotfi A. Zadeh Scholarship recipient, hackathon finalist, and scholarship recipient for competitive ML training programs.</p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <div class="stat-number">3.94</div>
+        <div class="stat-label">GPA / 4.0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">80+</div>
+        <div class="stat-label">Students tutored</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">5+</div>
+        <div class="stat-label">Awards & honors</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">2027</div>
+        <div class="stat-label">Expected graduation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">// 02</div>
+  <h2 class="section-title">Skills & Tools</h2>
+  <div class="skills-grid reveal">
+    <div class="skill-category">
+      <div class="skill-cat-title">Languages</div>
+      <div class="skill-tags">
+        <span class="tag">Python</span>
+        <span class="tag">SQL</span>
+        <span class="tag">C</span>
+        <span class="tag">C++</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">ML & Data</div>
+      <div class="skill-tags">
+        <span class="tag">scikit-learn</span>
+        <span class="tag">NumPy</span>
+        <span class="tag">Pandas</span>
+        <span class="tag">Matplotlib</span>
+        <span class="tag">MLflow</span>
+        <span class="tag">EDA</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">Tools & Workflow</div>
+      <div class="skill-tags">
+        <span class="tag">Git</span>
+        <span class="tag">VS Code</span>
+        <span class="tag">Jupyter</span>
+        <span class="tag">Excel</span>
+        <span class="tag">GitHub</span>
+      </div>
+    </div>
+    <div class="skill-category">
+      <div class="skill-cat-title">CS Fundamentals</div>
+      <div class="skill-tags">
+        <span class="tag">Algorithms & DS</span>
+        <span class="tag">Statistics</span>
+        <span class="tag">Linear Algebra</span>
+        <span class="tag">Database Systems</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-label">// 03</div>
+  <h2 class="section-title">Projects</h2>
+  <div class="projects-grid reveal">
+
+    <div class="project-card">
+      <div class="project-top">
+        <div class="project-icon">🐦</div>
+        <a href="https://github.com/maisababayeva/flappy-bird-qlearning" target="_blank" class="project-link">GitHub ↗</a>
+      </div>
+      <div class="project-title">Flappy Bird Q-Learning Agent</div>
+      <div class="project-desc">Trained a tabular Q-Learning agent to play Flappy Bird in a headless MDP environment. Ran two experiments (Baseline vs Fast Pipes) over 8000 episodes. Achieved a mean score of 1010 and max of 7579 in the baseline setting.</div>
+      <div class="project-tags">
+        <span class="project-tag">Reinforcement Learning</span>
+        <span class="project-tag">Q-Learning</span>
+        <span class="project-tag">Pygame</span>
+        <span class="project-tag">Python</span>
+      </div>
+      <div class="project-meta">CSCI3613 Artificial Intelligence · Spring 2026</div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-top">
+        <div class="project-icon">🎮</div>
+        <a href="https://github.com/maisababayeva/video-game-hit-prediction" target="_blank" class="project-link">GitHub ↗</a>
+      </div>
+      <div class="project-title">Video Game Hit Prediction</div>
+      <div class="project-desc">Binary classification pipeline to predict whether a video game will exceed 1M global sales. Compared Logistic Regression, Decision Tree, SVM, and Random Forest. Best result: 91% accuracy with a tuned Random Forest classifier.</div>
+      <div class="project-tags">
+        <span class="project-tag">Classification</span>
+        <span class="project-tag">scikit-learn</span>
+        <span class="project-tag">MLflow</span>
+        <span class="project-tag">Python</span>
+      </div>
+      <div class="project-meta">CSCI4734 Machine Learning · Fall 2025</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-label">// 04</div>
+  <h2 class="section-title">Experience</h2>
+  <div class="exp-list reveal">
+
+    <div class="exp-item">
+      <div class="exp-date">Feb 2025 – May 2026</div>
+      <div>
+        <div class="exp-role">Peer Tutor — Calculus I</div>
+        <div class="exp-org">ADA University</div>
+        <div class="exp-desc">Assisted 80+ students across two semesters in mastering limits, derivatives, and integrals through one-on-one and group sessions.</div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">Oct – Dec 2025</div>
+      <div>
+        <div class="exp-role">Teaching Assistant — Programming Principles I</div>
+        <div class="exp-org">ADA University</div>
+        <div class="exp-desc">Led weekly problem-solving sessions on core programming concepts and algorithmic thinking. Proctored exams and ensured academic integrity.</div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">Jan – May 2025</div>
+      <div>
+        <div class="exp-role">Teaching Assistant — Calculus I</div>
+        <div class="exp-org">ADA University</div>
+        <div class="exp-desc">Graded exams, proctored assessments for up to 50 students, and facilitated post-exam review sessions.</div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">May – Aug 2024</div>
+      <div>
+        <div class="exp-role">Data Science & Machine Learning Trainee</div>
+        <div class="exp-org">Codenext Innovation School · 100% Scholarship (Technest & IDDA)</div>
+        <div class="exp-desc">Completed hands-on ML training using Python and relevant libraries. Awarded full scholarship for outstanding academic performance.</div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">Sep – Nov 2024</div>
+      <div>
+        <div class="exp-role">Girls in IT Program</div>
+        <div class="exp-org">Digital Azerbaijan Talent School</div>
+        <div class="exp-desc">Completed training in mathematical foundations of CS, including problem-solving and algorithmic thinking workshops.</div>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">Aug – Nov 2024</div>
+      <div>
+        <div class="exp-role">Aspire Leaders Program</div>
+        <div class="exp-org">Harvard Business School · Online</div>
+        <div class="exp-desc">Completed leadership development program focused on personal growth, leadership, and global collaboration.</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AWARDS -->
+<section id="awards">
+  <div class="section-label">// 05</div>
+  <h2 class="section-title">Awards & Honors</h2>
+  <div class="awards-grid reveal">
+    <div class="award-item">
+      <div class="award-dot"></div>
+      <div>
+        <div class="award-title">Dean's List of Distinction</div>
+        <div class="award-org">ADA University · Spring & Fall 2025</div>
+      </div>
+    </div>
+    <div class="award-item">
+      <div class="award-dot"></div>
+      <div>
+        <div class="award-title">Lotfi A. Zadeh List of Honor Scholarship</div>
+        <div class="award-org">ADA University · Spring 2024 (4.0 GPA)</div>
+      </div>
+    </div>
+    <div class="award-item">
+      <div class="award-dot"></div>
+      <div>
+        <div class="award-title">List of High Performance</div>
+        <div class="award-org">ADA University · Fall 2024</div>
+      </div>
+    </div>
+    <div class="award-item">
+      <div class="award-dot"></div>
+      <div>
+        <div class="award-title">Pasha Hackathon 5.0 — Finalist</div>
+        <div class="award-org">Pasha Holding · May 2025</div>
+      </div>
+    </div>
+    <div class="award-item">
+      <div class="award-dot"></div>
+      <div>
+        <div class="award-title">ABB Startup Challenge — Pre-incubation</div>
+        <div class="award-org">ABB Innovation · July 2025</div>
+      </div>
+    </div>
+    <div class="award-item">
+      <div class="award-dot"></div>
+      <div>
+        <div class="award-title">Republic Subject Olympiad — Bronze Medal</div>
+        <div class="award-org">Physics, Mathematics & Informatics Lyceum · 2022</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-label">// 06</div>
+  <h2 class="section-title">Get in Touch</h2>
+  <div class="contact-inner reveal">
+    <p>I'm open to research collaborations, internship opportunities, and interesting conversations about ML and AI.</p>
+    <div class="contact-links">
+      <a href="mailto:mbabayeva18079@ada.edu.az" class="contact-row">
+        <span class="contact-icon">✉</span>
+        <span class="contact-label">email</span>
+        <span class="contact-value">mbabayeva18079@ada.edu.az</span>
+      </a>
+      <a href="https://www.linkedin.com/in/bmaisa" target="_blank" class="contact-row">
+        <span class="contact-icon">in</span>
+        <span class="contact-label">linkedin</span>
+        <span class="contact-value">linkedin.com/in/bmaisa</span>
+      </a>
+      <a href="https://github.com/maisababayeva" target="_blank" class="contact-row">
+        <span class="contact-icon">⌥</span>
+        <span class="contact-label">github</span>
+        <span class="contact-value">github.com/maisababayeva</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Maisa Babayeva</p>
+  <p>Built with HTML · Hosted on GitHub Pages</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
